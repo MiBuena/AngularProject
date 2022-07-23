@@ -1,0 +1,178 @@
+
+1. Angular allows us to build SPAs
+
+1 HTML file with a lot of JavaScript rendered from the server
+
+If you need data - you load it in the background. So the user never leaves the page.
+
+Node.js is used to bundle up our Angular project.
+
+npm is used to manage the different dependencies the project has.
+
+
+This is how we create and run our first project:
+
+npm install -g @angular/cli@latest
+
+ng new my-first-angular-app --no-strict
+
+cd my-first-angular-app
+
+ng serve - brings up a development server
+
+
+It runs by default on: We can go to the browser on this address:
+http://localhost:4200/
+
+
+Go with the cmd to the folder of the project and run ng serve. This is how you launch the development server.
+It will watch our files and rebuild our project when you change and save something.
+When you are done with development for the day - you can quit it with ctrl + C
+
+package.json - here we can see all the dependencies of our project. Third party packages our project needs to run correctly.
+
+
+Our code is in:
+
+src -> app -> app.component.html
+
+
+<app-root></app-root> - our own tag we are creating
+
+
+npm install --save bootstrap@3
+
+angular.json - styles:
+
+   "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.css"
+            ],
+
+
+This is how Angular understands which component to substitute:
+
+app.component.ts:
+
+  selector: 'app-root',
+
+index.html:
+  <app-root></app-root>
+
+
+The first code that gets executed is the one in main.ts.
+
+main.ts:
+import { AppModule } from './app/app.module';
+
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+
+
+app.module.ts:
+export class AppModule { }
+
+
+
+
+main.ts (AppModule) -> app.module.ts bootstrap: [AppComponent] -> app.component.ts - analyzes all the app.component files
+
+selector - html selector - should be unique name.
+
+
+
+The html tags of all other components we create should be added to app.component.html, not to index.html.
+
+For every new component we should add a new folder in the app folder. The folder name should equal the component name.
+
+
+We add server.component.ts file.
+
+
+Decorators are TypeScript features which allow you to enhance your classes or elements.
+@Component({})
+
+We need to pass JavaScript objects to configure the component:
+
+@Component({
+    selector: 'app-server',  - we specify here the html tag through which we will be able to use this component in the other components html files.
+                               It should be a string and make sure it is a unique selector. We prefix it with "app-server".
+    templateUrl: './server.component.html'
+})
+
+
+server.component.ts:
+
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-server', 
+    templateUrl: './server.component.html'
+})
+
+export class ServerComponent {
+
+}
+
+We need to specify the templateUrl. We need to add this html file in the folder.
+
+
+
+Angular uses components to build web pages. 
+And uses modules to bundle different pieces (components of our app) into packages.
+
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+
+import { AppComponent } from './app.component';
+import { ServerComponent } from './server/server.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    ServerComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+bootstrap - tells angular which component it should be aware of when our application starts. 
+This is the selector in the index.html file.
+
+Не пипаме bootstrap array-a. Всички нови компоненти ги добавяме в:
+
+declarations: [
+    AppComponent,
+    ServerComponent
+  ],
+
+  imports: [          - allows us to add other modules to our module
+    BrowserModule
+  ],
+
+
+We do not add the extension. It gets added automatically.
+
+import { ServerComponent } from './server/server.component';
+
+
+The imports section allows us to add other modules:
+
+ imports: [
+    BrowserModule
+  ],
+
+
+
+
+We should add the app-server html tag in the app.component.html file:
+
+<h3>I am in the AppComponent!</h3>
+<hr>
+<app-server></app-server>
